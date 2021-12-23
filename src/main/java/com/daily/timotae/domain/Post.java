@@ -17,6 +17,8 @@ public class Post implements Serializable {
         this.postId = postId;
     }
 
+    public Post(){ }
+
     public Long getPostId() {
         return postId;
     }
