@@ -10,8 +10,7 @@ public class BoardService {
         this.postRepository = postRepository;
     }
 
-    public Long createPost(Post post){ //등록
+    public void createPost(Post post){ //등록
         postRepository.savePost(post);
-        return post.getPostId();
     }
 }
