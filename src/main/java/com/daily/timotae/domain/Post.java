@@ -1,21 +1,19 @@
 package com.daily.timotae.domain;
 
 import lombok.Builder;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 
 public class Post implements Serializable {
 
+    // @Id
     private Long postId;
     private String title;
     private String category;
     private String userId;
     private String dateOfIssue;
     private String content;
-
-    public Post(Long postId){
-        this.postId = postId;
-    }
 
     public Post(){ }
 
