@@ -22,20 +22,13 @@ public class MemoryPostRepositoryTest {
     @Test
     public void 글작성(){
         //given
-        new Post();
-
         String title = "제목";
         String content = "글 내용";
         String userId = "작성자";
         String category = "카테고리";
         String dateOfIssue = "2021-12-23";
 
-        Post post = Post.builder()
-                .title(title)
-                .category(category)
-                .content(content)
-                .userId(userId)
-                .dateOfIssue(dateOfIssue)
+        Post post = new Post.PostBuilder(title, content, userId, category, dateOfIssue)
                 .build();
 
         postRepository.savePost(post);
