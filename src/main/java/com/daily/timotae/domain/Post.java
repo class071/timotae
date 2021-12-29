@@ -3,11 +3,13 @@ package com.daily.timotae.domain;
 import lombok.Builder;
 import org.springframework.data.annotation.Id;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.io.Serializable;
 
 public class Post {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long postId;
 
     private String title;
@@ -20,22 +22,31 @@ public class Post {
 
     private String content;
 
-    public Long getPostId() { return postId; }
-    public String getTitle() { return title; }
+    public Long getPostId() {
+        return postId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     public String getCategory() {
         return category;
     }
+
     public String getUserId() {
         return userId;
     }
+
     public String getDateOfIssue() {
         return dateOfIssue;
     }
+
     public String getContent() {
         return content;
     }
 
-    private Post(PostBuilder postBuilder) {
+    private Post( PostBuilder postBuilder ) {
         this.postId = postId;
         this.title = title;
         this.category = category;
@@ -44,7 +55,7 @@ public class Post {
         this.content = content;
     }
 
-    public static class PostBuilder{
+    public static class PostBuilder {
 
         private String title;
         private String category;
@@ -52,7 +63,7 @@ public class Post {
         private String dateOfIssue;
         private String content;
 
-        public PostBuilder(String title, String category, String userId, String dateOfIssue, String content) {
+        public PostBuilder( String title, String category, String userId, String dateOfIssue, String content ) {
             this.title = title;
             this.category = category;
             this.userId = userId;
