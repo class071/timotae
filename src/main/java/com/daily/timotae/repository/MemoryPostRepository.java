@@ -19,8 +19,13 @@ public class MemoryPostRepository implements PostRepository {
     }
 
     @Override
-    public List<Post> findAll() {
+    public List<Post> findAll(){
         return new ArrayList<>(store.values());
+    }
+
+    @Override
+    public Post findByPostId(Long postId) {
+        return store.get(postId);
     }
 
     @Override
