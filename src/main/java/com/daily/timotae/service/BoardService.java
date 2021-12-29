@@ -2,8 +2,7 @@ package com.daily.timotae.service;
 
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.repository.PostRepository;
-
-import java.util.List;
+import java.util.Map;
 
 public class BoardService {
     private final PostRepository postRepository;
@@ -16,8 +15,8 @@ public class BoardService {
         postRepository.savePost(post);
     }
 
-    public List<Post> readAllPost(){
-        return postRepository.findAll();
+    public Map<Long, Post> readAllPost(){
+        return postRepository.findAllWithPostId();
     }
 
     public Post readOnePostDetail(Long postId){
