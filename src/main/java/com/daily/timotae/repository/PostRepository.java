@@ -14,4 +14,5 @@ public interface PostRepository {
     List<Post> findAll();
     void clearStore();
 
+    void changePost(Long postId, Post post);
 }

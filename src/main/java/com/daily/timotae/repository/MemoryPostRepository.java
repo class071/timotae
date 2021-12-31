@@ -30,6 +30,11 @@ public class MemoryPostRepository implements PostRepository {
     }
 
     @Override
+    public void changePost(Long postId, Post post) {
+        store.replace(postId, post);
+    }
+
+    @Override
     public List<Post> findAll(){
         return new ArrayList<>(store.values());
     }

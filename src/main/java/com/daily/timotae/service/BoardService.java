@@ -23,4 +23,8 @@ public class BoardService {
     public Post readOnePostDetail(Long postId){
         return postRepository.findByPostId(postId);
     }
+
+    public void updatePost(Long postId, Post post){
+        postRepository.changePost(postId, post);
+    }
 }
