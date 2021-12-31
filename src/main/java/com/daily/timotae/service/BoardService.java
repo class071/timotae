@@ -18,4 +18,8 @@ public class BoardService {
     public void readPostAll(){
         postRepository.findPostAll();
     }
+
+    public Post readPostOneDetail(Long postId){
+        return postRepository.findPostOne(postId);
+    }
 }

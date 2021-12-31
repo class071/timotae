@@ -9,6 +9,7 @@ public interface PostRepository {
 
     Post savePost(Post post);
     Map<Long, Post> findPostAll();
+    Post findPostOne(Long postId);
 
     List<Post> findAll();
     void clearStore();
