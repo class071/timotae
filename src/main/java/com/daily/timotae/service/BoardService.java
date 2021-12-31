@@ -27,4 +27,8 @@ public class BoardService {
     public void updatePost(Long postId, Post post){
         postRepository.changePost(postId, post);
     }
+
+    public void deletePost(Long postId){
+        postRepository.removePost(postId);
+    }
 }
