@@ -14,8 +14,14 @@ public class MemoryPostRepository implements PostRepository {
 
     @Override
     public Post savePost(Post post){
-        store.put(post.getPostId(), post);
+        seq++;
+        store.put(seq, post);
         return post;
+    }
+
+    @Override
+    public Map<Long, Post> findPostAll() {
+        return store;
     }
 
     @Override
