@@ -13,7 +13,7 @@ import java.util.List;
 public class MemoryPostRepositoryTest {
 
     PostRepository postRepository = new MemoryPostRepository();
-
+    BoardService boardService = new BoardService(postRepository);
     @AfterEach
     public void afterEach(){
         postRepository.clearStore();
@@ -28,15 +28,25 @@ public class MemoryPostRepositoryTest {
         String category = "카테고리";
         String dateOfIssue = "2021-12-23";
 
+        String title2 = "제목2";
+        String content2 = "글 내용2";
+        String userId2 = "작성자2";
+        String category2 = "카테고리2";
+        String dateOfIssue2 = "2021-12-29";
+
         Post post = new Post.PostBuilder(title, content, userId, category, dateOfIssue)
                 .build();
 
-        postRepository.savePost(post);
+        Post post2 = new Post.PostBuilder(title2, content2, userId2, category2, dateOfIssue2)
+                .build();
+
+        boardService.createPost(post);
+        boardService.createPost(post2);
 
         //when
         List<Post> result = postRepository.findAll();
 
         //then
-        Assertions.assertThat(result.size()).isEqualTo(1);
+        Assertions.assertThat(result.get(1).getTitle()).isEqualTo("제목");
     }
 }

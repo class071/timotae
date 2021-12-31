@@ -5,6 +5,7 @@ import com.daily.timotae.repository.PostRepository;
 import java.util.Map;
 
 public class BoardService {
+
     private final PostRepository postRepository;
 
     public BoardService(PostRepository postRepository){

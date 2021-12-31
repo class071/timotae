@@ -9,8 +9,8 @@ import java.io.Serializable;
 
 public class Post {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long postId;
+    //@Id @GeneratedValue(strategy = GenerationType.AUTO)
+    //private Long postId;
 
     private String title;
 
@@ -21,10 +21,6 @@ public class Post {
     private String dateOfIssue;
 
     private String content;
-
-    public Long getPostId() {
-        return postId;
-    }
 
     public String getTitle() {
         return title;
@@ -46,13 +42,12 @@ public class Post {
         return content;
     }
 
-    private Post( PostBuilder postBuilder ) {
-        this.postId = postId;
-        this.title = title;
-        this.category = category;
-        this.userId = userId;
-        this.dateOfIssue = dateOfIssue;
-        this.content = content;
+    private Post(PostBuilder postBuilder) {
+        this.title = postBuilder.title;
+        this.category = postBuilder.category;
+        this.userId = postBuilder.userId;
+        this.dateOfIssue = postBuilder.dateOfIssue;
+        this.content = postBuilder.content;
     }
 
     public static class PostBuilder {
@@ -63,7 +58,7 @@ public class Post {
         private String dateOfIssue;
         private String content;
 
-        public PostBuilder( String title, String category, String userId, String dateOfIssue, String content ) {
+        public PostBuilder(String title, String category, String userId, String dateOfIssue, String content) {
             this.title = title;
             this.category = category;
             this.userId = userId;
@@ -72,6 +67,7 @@ public class Post {
         }
 
         public Post build() {
+
             return new Post(this);
         }
     }
