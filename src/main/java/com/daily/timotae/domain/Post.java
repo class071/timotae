@@ -7,8 +7,8 @@ import java.io.Serializable;
 
 public class Post {
 
-    @Id
-    private Long postId;
+//    @Id
+//    private Long postId;
 
     private String title;
 
@@ -20,7 +20,6 @@ public class Post {
 
     private String content;
 
-    public Long getPostId() { return postId; }
     public String getTitle() { return title; }
     public String getCategory() {
         return category;
@@ -36,12 +35,11 @@ public class Post {
     }
 
     private Post(PostBuilder postBuilder) {
-        this.postId = postId;
-        this.title = title;
-        this.category = category;
-        this.userId = userId;
-        this.dateOfIssue = dateOfIssue;
-        this.content = content;
+        this.title = postBuilder.title;
+        this.category = postBuilder.category;
+        this.userId = postBuilder.userId;
+        this.dateOfIssue = postBuilder.dateOfIssue;
+        this.content = postBuilder.content;
     }
 
     public static class PostBuilder{
