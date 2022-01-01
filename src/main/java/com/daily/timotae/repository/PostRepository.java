@@ -11,6 +11,7 @@ public interface PostRepository {
     Map<Long, Post> findPostAll();
     Post findPostOne(Long postId);
     void changePost(Long postId, Post post);
+    void removePost(Long postId);
 
     List<Post> findAll();
     void clearStore();

@@ -19,6 +19,10 @@ public class BoardService {
         postRepository.changePost(postId, post);
     }
 
+    public void deletePost(Long postId){
+        postRepository.removePost(postId);
+    }
+
     public void readPostAll(){
         postRepository.findPostAll();
     }
