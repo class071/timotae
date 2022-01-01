@@ -10,6 +10,7 @@ public interface PostRepository {
     Post savePost(Post post);
     Map<Long, Post> findPostAll();
     Post findPostOne(Long postId);
+    void changePost(Long postId, Post post);
 
     List<Post> findAll();
     void clearStore();

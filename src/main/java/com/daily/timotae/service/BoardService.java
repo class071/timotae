@@ -15,6 +15,10 @@ public class BoardService {
         postRepository.savePost(post);
     }
 
+    public void updatePost(Long postId, Post post){
+        postRepository.changePost(postId, post);
+    }
+
     public void readPostAll(){
         postRepository.findPostAll();
     }
