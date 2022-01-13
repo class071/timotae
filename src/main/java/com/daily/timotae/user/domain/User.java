@@ -1,10 +1,10 @@
 package com.daily.timotae.user.domain;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @Entity
 public class User {
 
