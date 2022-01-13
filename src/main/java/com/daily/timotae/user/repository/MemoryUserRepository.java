@@ -3,9 +3,7 @@ package com.daily.timotae.user.repository;
 import com.daily.timotae.user.domain.User;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -22,11 +20,6 @@ public class MemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public Map<Long, User> findUserAll() {
-        return store;
-    }
-
-    @Override
     public User findUserOne(Long id) {
         return store.get(id);
     }
@@ -39,11 +32,6 @@ public class MemoryUserRepository implements UserRepository {
     @Override
     public void removeUser(Long id) {
         store.remove(id);
-    }
-
-    @Override
-    public List<User> findAll() {
-        return new ArrayList<>(store.values());
     }
 
     @Override

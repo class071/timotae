@@ -2,10 +2,7 @@ package com.daily.timotae.user.service;
 
 import com.daily.timotae.user.domain.User;
 import com.daily.timotae.user.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
@@ -28,11 +25,7 @@ public class UserService {
         userRepository.removeUser(id);
     }
 
-    public User findUserById(Long id) {
+    public User findById(Long id) {
         return userRepository.findUserOne(id);
-    }
-
-    public List<User> viewUserAll() {
-        return userRepository.findAll();
     }
 }
