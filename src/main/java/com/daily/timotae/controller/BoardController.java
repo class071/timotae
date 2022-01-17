@@ -4,8 +4,6 @@ import com.daily.timotae.domain.Post;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/board")
 public class BoardController { // 삭제 수정 등록 조회
@@ -16,17 +14,17 @@ public class BoardController { // 삭제 수정 등록 조회
         this.boardService = boardService;
     }
 
-    @GetMapping("/{id}")
-    public void create(@PathVariable Post post) {
+    @PostMapping("/create")
+    public void create(@RequestBody Post post) {
         boardService.createPost(post);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public void update(@PathVariable Long id, @RequestBody Post post) {
         boardService.updatePost(id, post);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable Long id) {
         boardService.deletePost(id);
     }
