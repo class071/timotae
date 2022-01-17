@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,14 +20,19 @@ public class Post {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long postId;
 
+    @Column(length = 30, nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private String category;
 
+    @Column(nullable = false)
     private String userId;
 
+    @Column(nullable = false)
     private String dateOfIssue;
 
+    @Column(length = 300, nullable = false)
     private String content;
 
     @Builder
