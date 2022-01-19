@@ -4,6 +4,8 @@ import com.daily.timotae.domain.Post;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/board")
 public class BoardController { // 삭제 수정 등록 조회
@@ -35,7 +37,7 @@ public class BoardController { // 삭제 수정 등록 조회
     }
 
     @GetMapping("/readone/{id}")
-    public Post readOne(@PathVariable Long id){
+    public Optional<Post> readOne(@PathVariable Long id){
         return boardService.readPostOneDetail(id);
     }
 

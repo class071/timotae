@@ -5,6 +5,8 @@ import com.daily.timotae.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BoardService {
 
@@ -31,7 +33,7 @@ public class BoardService {
         postRepository.findPostAll();
     }
 
-    public Post readPostOneDetail(Long postId){
+    public Optional<Post> readPostOneDetail(Long postId){
         return postRepository.findPostOne(postId);
     }
 }
