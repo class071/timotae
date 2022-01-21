@@ -43,4 +43,12 @@ public class Post {
         this.dateOfIssue = dateOfIssue;
         this.content = content;
     }
+
+    public void update(String title, String category, String userId, String dateOfIssue, String content){
+        this.title = title;
+        this.category = category;
+        this.userId = userId;
+        this.dateOfIssue = dateOfIssue;
+        this.content = content;
+    }
 }
