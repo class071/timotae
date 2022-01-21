@@ -4,6 +4,7 @@ import com.daily.timotae.domain.Post;
 import com.daily.timotae.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -12,7 +13,6 @@ public class BoardService {
 
     private final PostRepository postRepository;
 
-    @Autowired
     public BoardService(PostRepository postRepository){
         this.postRepository = postRepository;
     }
@@ -21,6 +21,7 @@ public class BoardService {
         postRepository.savePost(post);
     }
 
+    @Transactional
     public void updatePost(Long postId, Post post){
         postRepository.changePost(postId, post);
     }
