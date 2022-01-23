@@ -2,10 +2,7 @@ package com.daily.timotae.repository;
 
 import com.daily.timotae.domain.Post;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MemoryPostRepository implements PostRepository {
 
@@ -20,13 +17,13 @@ public class MemoryPostRepository implements PostRepository {
     }
 
     @Override
-    public Map<Long, Post> findPostAll() {
-        return store;
+    public List<Post> findPostAll() {
+        return new ArrayList<>(store.values());
     }
 
     @Override
-    public Post findPostOne(Long postId) {
-        return store.get(postId);
+    public Optional<Post> findPostOne(Long postId) {
+        return Optional.ofNullable(store.get(postId));
     }
 
     @Override
@@ -37,16 +34,6 @@ public class MemoryPostRepository implements PostRepository {
     @Override
     public void removePost(Long postId) {
         store.remove(postId);
-    }
-
-    @Override
-    public List<Post> findAll() {
-        return new ArrayList<>(store.values());
-    }
-
-    @Override
-    public void clearStore() {
-        store.clear();
     }
 
 }
