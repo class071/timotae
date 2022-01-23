@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Primary;
 import java.util.List;
 import java.util.Optional;
 
-@Primary
 public class JpaPostRepositoryAdapter implements PostRepository {
 
     private JpaPostRepository jpaPostRepository;

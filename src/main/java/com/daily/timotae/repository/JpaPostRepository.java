@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface JpaPostRepository extends JpaRepository<Post, Long>, PostRepository {
+public interface JpaPostRepository extends JpaRepository<Post, Long> {
 
 }
