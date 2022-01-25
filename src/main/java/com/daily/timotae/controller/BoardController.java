@@ -2,6 +2,7 @@ package com.daily.timotae.controller;
 
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.dto.PostCreateRequestDto;
+import com.daily.timotae.dto.PostUpdateRequestDto;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,8 @@ public class BoardController { // 삭제 수정 등록 조회
     }
 
     @PutMapping("/update/{id}")
-    public void update(@PathVariable Long id, @RequestBody Post post) {
-        boardService.updatePost(id, post);
+    public void update(@PathVariable Long id, @RequestBody PostUpdateRequestDto postUpdateRequestDto) {
+        boardService.updatePost(id, postUpdateRequestDto);
     }
 
     @DeleteMapping("/delete/{id}")

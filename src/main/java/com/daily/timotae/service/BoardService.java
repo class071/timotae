@@ -2,6 +2,7 @@ package com.daily.timotae.service;
 
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.dto.PostCreateRequestDto;
+import com.daily.timotae.dto.PostUpdateRequestDto;
 import com.daily.timotae.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,8 @@ public class BoardService {
     }
 
     @Transactional
-    public void updatePost(Long postId, Post post){
-        postRepository.changePost(postId, post);
+    public void updatePost(Long postId, PostUpdateRequestDto postUpdateRequestDto){
+        postRepository.changePost(postId, postUpdateRequestDto.toEntity());
     }
 
     public void deletePost(Long postId){
