@@ -1,6 +1,7 @@
 package com.daily.timotae.controller;
 
 import com.daily.timotae.domain.Post;
+import com.daily.timotae.dto.PostCreateRequestDto;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,8 @@ public class BoardController { // 삭제 수정 등록 조회
     }
 
     @PostMapping("/create")
-    public void create(@RequestBody Post post) {
-        boardService.createPost(post);
+    public void create(@RequestBody PostCreateRequestDto postCreateRequestDto) {
+        boardService.createPost(postCreateRequestDto);
     }
 
     @PutMapping("/update/{id}")
