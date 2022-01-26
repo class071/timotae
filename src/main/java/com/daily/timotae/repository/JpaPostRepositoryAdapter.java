@@ -1,10 +1,11 @@
 package com.daily.timotae.repository;
 
 import com.daily.timotae.domain.Post;
-import org.springframework.context.annotation.Primary;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 
 public class JpaPostRepositoryAdapter implements PostRepository {
 
@@ -28,7 +29,7 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     @Override
     public void changePost(Long postId, Post post) {
         Post tmpPost = findPostOne(postId)
-                .orElseThrow( () -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다. postId : " + postId));
+                .orElseThrow( () -> new IllegalArgumentException(POST_NOT_EXIST + postId));
         tmpPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getDateOfIssue(), post.getContent());
     }
 

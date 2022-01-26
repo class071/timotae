@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 
 @Service
 public class BoardService {
@@ -39,7 +39,7 @@ public class BoardService {
 
     public PostResponseDto readPostOne(Long postId){
         Post tmpPost = postRepository.findPostOne(postId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다. postId : " + postId));
+                .orElseThrow(() -> new IllegalArgumentException(POST_NOT_EXIST + postId));
         return new PostResponseDto(tmpPost);
     }
 }
