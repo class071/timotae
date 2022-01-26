@@ -4,6 +4,8 @@ import com.daily.timotae.user.domain.User;
 import com.daily.timotae.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -25,7 +27,7 @@ public class UserService {
         userRepository.removeUser(id);
     }
 
-    public User findById(Long id) {
+    public Optional<User> findById(Long id) {
         return userRepository.findUserOne(id);
     }
 }
