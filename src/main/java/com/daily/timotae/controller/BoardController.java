@@ -2,6 +2,7 @@ package com.daily.timotae.controller;
 
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.dto.PostCreateRequestDto;
+import com.daily.timotae.dto.PostResponseDto;
 import com.daily.timotae.dto.PostUpdateRequestDto;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +40,8 @@ public class BoardController { // 삭제 수정 등록 조회
     }
 
     @GetMapping("/readone/{id}")
-    public Optional<Post> readOne(@PathVariable Long id){
-        return boardService.readPostOneDetail(id);
+    public PostResponseDto readOne(@PathVariable Long id){
+        return boardService.readPostOne(id);
     }
 
 }

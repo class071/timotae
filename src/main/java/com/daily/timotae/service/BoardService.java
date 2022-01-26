@@ -2,6 +2,7 @@ package com.daily.timotae.service;
 
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.dto.PostCreateRequestDto;
+import com.daily.timotae.dto.PostResponseDto;
 import com.daily.timotae.dto.PostUpdateRequestDto;
 import com.daily.timotae.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,9 @@ public class BoardService {
         postRepository.findPostAll();
     }
 
-    public Optional<Post> readPostOneDetail(Long postId){
-        return postRepository.findPostOne(postId);
+    public PostResponseDto readPostOne(Long postId){
+        Post tmpPost = postRepository.findPostOne(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 존재하지 않습니다. postId : " + postId));
+        return new PostResponseDto(tmpPost);
     }
 }
