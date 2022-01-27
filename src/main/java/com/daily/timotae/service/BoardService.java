@@ -1,12 +1,15 @@
 package com.daily.timotae.service;
 
 import com.daily.timotae.domain.Post;
+import com.daily.timotae.dto.PostCreateRequestDto;
+import com.daily.timotae.dto.PostResponseDto;
+import com.daily.timotae.dto.PostUpdateRequestDto;
 import com.daily.timotae.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 
 @Service
 public class BoardService {
@@ -17,13 +20,13 @@ public class BoardService {
         this.postRepository = postRepository;
     }
 
-    public void createPost(Post post){
-        postRepository.savePost(post);
+    public void createPost(PostCreateRequestDto postCreateRequestDto){
+        postRepository.savePost(postCreateRequestDto.toEntity());
     }
 
     @Transactional
-    public void updatePost(Long postId, Post post){
-        postRepository.changePost(postId, post);
+    public void updatePost(Long postId, PostUpdateRequestDto postUpdateRequestDto){
+        postRepository.changePost(postId, postUpdateRequestDto.toEntity());
     }
 
     public void deletePost(Long postId){
@@ -34,7 +37,9 @@ public class BoardService {
         postRepository.findPostAll();
     }
 
-    public Optional<Post> readPostOneDetail(Long postId){
-        return postRepository.findPostOne(postId);
+    public PostResponseDto readPostOne(Long postId){
+        Post tmpPost = postRepository.findPostOne(postId)
+                .orElseThrow(() -> new IllegalArgumentException(POST_NOT_EXIST + postId));
+        return new PostResponseDto(tmpPost);
     }
 }
