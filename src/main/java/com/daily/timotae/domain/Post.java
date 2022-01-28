@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Post {
+public class Post extends BaseTimeEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long postId;
@@ -29,26 +29,21 @@ public class Post {
     @Column(nullable = false)
     private String userId;
 
-    @Column(nullable = false)
-    private String dateOfIssue;
-
     @Column(length = 300, nullable = false)
     private String content;
 
     @Builder
-    public Post(String title, String category, String userId, String dateOfIssue, String content) {
+    public Post(String title, String category, String userId,  String content) {
         this.title = title;
         this.category = category;
         this.userId = userId;
-        this.dateOfIssue = dateOfIssue;
         this.content = content;
     }
 
-    public void update(String title, String category, String userId, String dateOfIssue, String content){
+    public void update(String title, String category, String userId, String content){
         this.title = title;
         this.category = category;
         this.userId = userId;
-        this.dateOfIssue = dateOfIssue;
         this.content = content;
     }
 }
