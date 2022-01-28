@@ -38,8 +38,8 @@ public class BoardService {
     }
 
     public PostResponseDto readPostOne(Long postId){
-        Post tmpPost = postRepository.findPostOne(postId)
+        Post newPost = postRepository.findPostOne(postId)
                 .orElseThrow(() -> new IllegalArgumentException(POST_NOT_EXIST + postId));
-        return new PostResponseDto(tmpPost);
+        return new PostResponseDto(newPost);
     }
 }
