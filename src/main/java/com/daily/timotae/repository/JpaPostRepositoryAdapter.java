@@ -28,9 +28,9 @@ public class JpaPostRepositoryAdapter implements PostRepository {
 
     @Override
     public void changePost(Long postId, Post post) {
-        Post tmpPost = findPostOne(postId)
+        Post newPost = findPostOne(postId)
                 .orElseThrow( () -> new IllegalArgumentException(POST_NOT_EXIST + postId));
-        tmpPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getDateOfIssue(), post.getContent());
+        newPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getContent());
     }
 
     @Override

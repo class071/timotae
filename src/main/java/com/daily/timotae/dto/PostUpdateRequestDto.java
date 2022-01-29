@@ -13,15 +13,13 @@ public class PostUpdateRequestDto {
     private String category;
     private String userId;
     private String content;
-    private String dateOfIssue;
 
     @Builder
-    public PostUpdateRequestDto(String title, String category, String userId, String content, String dateOfIssue) {
+    public PostUpdateRequestDto(String title, String category, String userId, String content) {
         this.title = title;
         this.category = category;
         this.userId = userId;
         this.content = content;
-        this.dateOfIssue = dateOfIssue;
     }
 
     public Post toEntity(){
@@ -30,7 +28,6 @@ public class PostUpdateRequestDto {
                 .category(category)
                 .content(content)
                 .userId(userId)
-                .dateOfIssue(dateOfIssue)
                 .build();
     }
 }
