@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 
 @Service
@@ -41,5 +44,17 @@ public class BoardService {
         Post newPost = postRepository.findPostOne(postId)
                 .orElseThrow(() -> new IllegalArgumentException(POST_NOT_EXIST + postId));
         return new PostResponseDto(newPost);
+    }
+
+    @Transactional
+    public List<PostResponseDto> search(String type, String keyword){
+        List<Post> postEntityList = postRepository.searchPost(type, keyword);
+        List<PostResponseDto> postDtoList = new ArrayList<>();
+
+        for(Post post : postEntityList){
+            postDtoList.add(new PostResponseDto(post));
+        }
+
+        return postDtoList;
     }
 }
