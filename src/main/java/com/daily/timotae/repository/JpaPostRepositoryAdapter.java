@@ -1,6 +1,7 @@
 package com.daily.timotae.repository;
 
 import com.daily.timotae.domain.Post;
+import com.daily.timotae.exception.post.NotSupportSuchTypeException;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,4 +39,41 @@ public class JpaPostRepositoryAdapter implements PostRepository {
         jpaPostRepository.deleteById(postId);
     }
 
+    @Override
+    public List<Post> searchPost(String type, String keyword) {
+        if (isTitle(type)) {
+            return jpaPostRepository.findByTitleContaining(keyword);
+        } else if (isContent(type)) {
+            return jpaPostRepository.findByContentContaining(keyword);
+        } else if (isUserId(type)) {
+            return jpaPostRepository.findByUserIdEquals(keyword);
+        } else{
+            throw new NotSupportSuchTypeException();
+        }
+    }
+
+    private boolean isTitle(String type){
+        if(type.equalsIgnoreCase("title")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    private boolean isContent(String type){
+        if(type.equalsIgnoreCase("content")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    private boolean isUserId(String type){
+        if(type.equalsIgnoreCase("userId")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
