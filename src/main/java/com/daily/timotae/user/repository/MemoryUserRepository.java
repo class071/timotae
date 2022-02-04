@@ -5,12 +5,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository
 public class MemoryUserRepository implements UserRepository {
 
     private static Map<Long, User> store = new HashMap<>();
     private static long seq = 0L;
 
+    @Override
     public User saveUser(User user) {
         seq++;
         store.put(seq, user);
