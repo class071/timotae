@@ -46,7 +46,7 @@ public class BoardService {
         return new PostResponseDto(newPost);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PostResponseDto> search(String type, String keyword){
         List<Post> postEntityList = postRepository.searchPost(type, keyword);
         List<PostResponseDto> postDtoList = new ArrayList<>();
