@@ -55,24 +55,23 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     private boolean isTitle(String type){
         if(type.equalsIgnoreCase("title")) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
     private boolean isContent(String type){
         if(type.equalsIgnoreCase("content")) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
     private boolean isUserId(String type){
         if(type.equalsIgnoreCase("userId")) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
