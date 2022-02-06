@@ -7,6 +7,7 @@ import com.daily.timotae.dto.PostUpdateRequestDto;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -42,6 +43,11 @@ public class BoardController { // 삭제 수정 등록 조회
     @GetMapping("/readone/{id}")
     public PostResponseDto readOne(@PathVariable Long id){
         return boardService.readPostOne(id);
+    }
+
+    @GetMapping("/searchPost/{type}/{keyword}")
+    public List<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword){
+        return boardService.search(type, keyword);
     }
 
 }

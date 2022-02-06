@@ -1,6 +1,8 @@
 package com.daily.timotae.repository;
 
+import com.daily.timotae.constant.SearchType;
 import com.daily.timotae.domain.Post;
+import com.daily.timotae.exception.post.NotSupportSuchTypeException;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,4 +40,14 @@ public class JpaPostRepositoryAdapter implements PostRepository {
         jpaPostRepository.deleteById(postId);
     }
 
+    @Override
+    public List<Post> searchPost(String type, String keyword) {
+        SearchType searchType = SearchType.valueOf(type);
+        try {
+            return searchType.getListBySearchType(jpaPostRepository, keyword);
+        }
+        catch(IllegalArgumentException e){
+            throw new NotSupportSuchTypeException();
+        }
+    }
 }
