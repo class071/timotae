@@ -39,4 +39,13 @@ public class User {
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.userPassword = passwordEncoder.encode(userPassword);
     }
+
+    public void update(String userId, String userPassword, String name, int age, String email, Role role) {
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.role = role;
+    }
 }
