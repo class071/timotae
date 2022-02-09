@@ -36,8 +36,15 @@ public class BoardService {
         postRepository.removePost(postId);
     }
 
-    public void readPostAll(){
-        postRepository.findPostAll();
+    public List<PostResponseDto> readPostAll(){
+        List<Post> postEntityList = postRepository.findPostAll();
+        List<PostResponseDto> postDtoList = new ArrayList<>();
+
+        for(Post post : postEntityList){
+            postDtoList.add(new PostResponseDto(post));
+        }
+
+        return postDtoList;
     }
 
     public PostResponseDto readPostOne(Long postId){

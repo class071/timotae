@@ -36,8 +36,8 @@ public class BoardController { // 삭제 수정 등록 조회
     }
 
     @GetMapping("/readall/")
-    public void readAll(){
-        boardService.readPostAll();
+    public List<PostResponseDto> readAll(){
+        return boardService.readPostAll();
     }
 
     @GetMapping("/readone/{id}")
