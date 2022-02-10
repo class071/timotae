@@ -7,6 +7,7 @@ import com.daily.timotae.dto.PostUpdateRequestDto;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,8 +47,13 @@ public class BoardController { // 삭제 수정 등록 조회
     }
 
     @GetMapping("/searchPost/{type}/{keyword}")
-    public List<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword){
-        return boardService.search(type, keyword);
+    public List<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword, Pageable pageable){
+        return boardService.search(type, keyword, pageable);
+    }
+
+    @GetMapping("/paging")
+    public List<PostResponseDto> findAllPaging(Pageable pageable){
+        return boardService.findAllPaging(pageable);
     }
 
 }

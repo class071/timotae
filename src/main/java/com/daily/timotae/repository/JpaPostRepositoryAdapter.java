@@ -4,6 +4,7 @@ import com.daily.timotae.constant.SearchType;
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.exception.post.NotSupportSuchTypeException;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,13 +42,18 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     }
 
     @Override
-    public List<Post> searchPost(String type, String keyword) {
+    public List<Post> searchPost(String type, String keyword, Pageable pageable) {
         SearchType searchType = SearchType.valueOf(type);
         try {
-            return searchType.getListBySearchType(jpaPostRepository, keyword);
+            return searchType.getListBySearchType(jpaPostRepository, keyword, pageable);
         }
         catch(IllegalArgumentException e){
             throw new NotSupportSuchTypeException();
         }
+    }
+
+    @Override
+    public List<Post> findAllPaging(Pageable pageable) {
+        return jpaPostRepository.findAll(pageable);
     }
 }
