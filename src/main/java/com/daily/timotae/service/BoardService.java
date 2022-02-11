@@ -5,10 +5,10 @@ import com.daily.timotae.dto.PostCreateRequestDto;
 import com.daily.timotae.dto.PostResponseDto;
 import com.daily.timotae.dto.PostUpdateRequestDto;
 import com.daily.timotae.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +36,15 @@ public class BoardService {
         postRepository.removePost(postId);
     }
 
-    public void readPostAll(){
-        postRepository.findPostAll();
+    public List<PostResponseDto> readPostAll(){
+        List<Post> postEntityList = postRepository.findPostAll();
+        List<PostResponseDto> postDtoList = new ArrayList<>();
+
+        for(Post post : postEntityList){
+            postDtoList.add(new PostResponseDto(post));
+        }
+
+        return postDtoList;
     }
 
     public PostResponseDto readPostOne(Long postId){
@@ -47,8 +54,19 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponseDto> search(String type, String keyword){
-        List<Post> postEntityList = postRepository.searchPost(type, keyword);
+    public List<PostResponseDto> search(String type, String keyword, Pageable pageable){
+        List<Post> postEntityList = postRepository.searchPost(type, keyword, pageable);
+        List<PostResponseDto> postDtoList = new ArrayList<>();
+
+        for(Post post : postEntityList){
+            postDtoList.add(new PostResponseDto(post));
+        }
+
+        return postDtoList;
+    }
+
+    public List<PostResponseDto> findAllPaging(Pageable pageable) {
+        List<Post> postEntityList = postRepository.findAllPaging(pageable);
         List<PostResponseDto> postDtoList = new ArrayList<>();
 
         for(Post post : postEntityList){
