@@ -4,6 +4,8 @@ import com.daily.timotae.user.domain.User;
 import com.daily.timotae.user.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -15,7 +17,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User findUserById(@PathVariable Long id) {
+    public Optional<User> findUserById(@PathVariable Long id) {
         return userService.findById(id);
     }
 
