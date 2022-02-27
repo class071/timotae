@@ -2,7 +2,11 @@ package com.daily.timotae.dto;
 
 import com.daily.timotae.domain.Reply;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class ReplyCreateRequestDto {
 
     private Long postId;
