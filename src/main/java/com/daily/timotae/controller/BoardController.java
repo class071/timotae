@@ -44,7 +44,7 @@ public class BoardController {
         return boardService.readPostOne(id);
     }
 
-    @GetMapping("/searchPost/{type}/{keyword}")
+    @GetMapping("/search/{type}/{keyword}")
     public List<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword, Pageable pageable) {
         return boardService.search(type, keyword, pageable);
     }
@@ -54,28 +54,5 @@ public class BoardController {
         return boardService.findAllPaging(pageable);
     }
 
-    @GetMapping("/reply/create")
-    public void createReply(@RequestBody ReplyCreateRequestDto ReplyCreateRequestDto, @RequestParam int depth){
-        boardService.createReply(ReplyCreateRequestDto, depth);
-    }
-
-    @DeleteMapping("/reply/delete/{replyId}")
-    public void deleteReply(@PathVariable long replyId){
-        boardService.deleteReply(replyId);
-    }
-
-    @PutMapping("/reply/update/{replyId}")
-    public void updateReply(@PathVariable long replyId, @RequestBody ReplyUpdateRequestDto replyUpdateRequestDto){
-        boardService.updateReply(replyId, replyUpdateRequestDto);
-    }
-    @GetMapping("/reply/readPostReply/{postId}")
-    public List<ReplyResponseDto> readAllByPostId(@PathVariable long postId, Pageable pageable){
-        return boardService.findAllByPostId(postId, pageable);
-    }
-
-    @GetMapping("/reply/re_reply/{parentReplyId}")
-    public List<ReplyResponseDto> readAllByParentReplyId(@PathVariable long parentReplyId, Pageable pageable) {
-        return boardService.findAllByParentReplyId(parentReplyId, pageable);
-    }
 }
 
