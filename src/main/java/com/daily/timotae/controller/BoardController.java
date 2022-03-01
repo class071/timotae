@@ -1,9 +1,7 @@
 package com.daily.timotae.controller;
 
 import com.daily.timotae.domain.Post;
-import com.daily.timotae.dto.PostCreateRequestDto;
-import com.daily.timotae.dto.PostResponseDto;
-import com.daily.timotae.dto.PostUpdateRequestDto;
+import com.daily.timotae.dto.*;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/board")
-public class BoardController { // 삭제 수정 등록 조회
+public class BoardController {
 
     private final BoardService boardService;
 
@@ -36,24 +34,25 @@ public class BoardController { // 삭제 수정 등록 조회
         boardService.deletePost(id);
     }
 
-    @GetMapping("/readall/")
-    public List<PostResponseDto> readAll(){
+    @GetMapping("/readAll/")
+    public List<PostResponseDto> readAll() {
         return boardService.readPostAll();
     }
 
-    @GetMapping("/readone/{id}")
-    public PostResponseDto readOne(@PathVariable Long id){
+    @GetMapping("/readOne/{id}")
+    public PostResponseDto readOne(@PathVariable Long id) {
         return boardService.readPostOne(id);
     }
 
-    @GetMapping("/searchPost/{type}/{keyword}")
-    public List<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword, Pageable pageable){
+    @GetMapping("/search/{type}/{keyword}")
+    public List<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword, Pageable pageable) {
         return boardService.search(type, keyword, pageable);
     }
 
     @GetMapping("/paging")
-    public List<PostResponseDto> findAllPaging(Pageable pageable){
+    public List<PostResponseDto> findAllPaging(Pageable pageable) {
         return boardService.findAllPaging(pageable);
     }
 
 }
+
