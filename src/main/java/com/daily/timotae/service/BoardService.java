@@ -3,13 +3,12 @@ package com.daily.timotae.service;
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.domain.Reply;
 import com.daily.timotae.dto.*;
-import com.daily.timotae.exception.post.NotSupportSuchTypeException;
 import com.daily.timotae.exception.reply.NoMoreReply;
+import com.daily.timotae.exception.reply.NoParentReplyExist;
 import com.daily.timotae.repository.PostRepository;
 
 import com.daily.timotae.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,14 +39,14 @@ public class BoardService {
     }
 
     public List<PostResponseDto> readPostAll(){
-        List<Post> postEntityList = postRepository.findPostAll();
-        List<PostResponseDto> postDtoList = new ArrayList<>();
+        List<Post> posts = postRepository.findPostAll();
+        List<PostResponseDto> postDtos = new ArrayList<>();
 
-        for(Post post : postEntityList){
-            postDtoList.add(new PostResponseDto(post));
+        for(Post post : posts){
+            postDtos.add(new PostResponseDto(post));
         }
 
-        return postDtoList;
+        return postDtos;
     }
 
     public PostResponseDto readPostOne(Long postId){
@@ -58,32 +57,44 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public List<PostResponseDto> search(String type, String keyword, Pageable pageable){
-        List<Post> postEntityList = postRepository.searchPost(type, keyword, pageable);
-        List<PostResponseDto> postDtoList = new ArrayList<>();
+        List<Post> posts = postRepository.searchPost(type, keyword, pageable);
+        List<PostResponseDto> postDtos = new ArrayList<>();
 
-        for(Post post : postEntityList){
-            postDtoList.add(new PostResponseDto(post));
+        for(Post post : posts){
+            postDtos.add(new PostResponseDto(post));
         }
 
-        return postDtoList;
+        return postDtos;
     }
 
     public List<PostResponseDto> findAllPaging(Pageable pageable) {
-        List<Post> postEntityList = postRepository.findAllPaging(pageable);
-        List<PostResponseDto> postDtoList = new ArrayList<>();
+        List<Post> posts = postRepository.findAllPaging(pageable);
+        List<PostResponseDto> postDtos = new ArrayList<>();
 
-        for(Post post : postEntityList){
-            postDtoList.add(new PostResponseDto(post));
+        for(Post post : posts){
+            postDtos.add(new PostResponseDto(post));
         }
 
-        return postDtoList;
+        return postDtos;
     }
 
-    public void createReply(ReplyCreateRequestDto replyCreateRequestDto, int depth) {
-        if(depth > 2) {
+    public void createReply(ReplyCreateRequestDto replyCreateRequestDto) {
+        if(replyCreateRequestDto.getDepth() > 2) {
             throw new NoMoreReply();
         }
-        replyRepository.saveReply(replyCreateRequestDto.toEntity());
+
+        if(checkParentExist(replyCreateRequestDto))
+            replyRepository.saveReply(replyCreateRequestDto.toEntity());
+        else{
+            throw new NoParentReplyExist();
+        }
+    }
+
+    public boolean checkParentExist(ReplyCreateRequestDto replyCreateRequestDto){
+        if(replyCreateRequestDto.getParentReplyId() == null)
+            return false;
+        else
+            return true;
     }
 
     public void deleteReply(long replyId){
@@ -92,29 +103,29 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public List<ReplyResponseDto> findAllByPostId(long postId, Pageable pageable){
-        List<Reply> replyEntityList = replyRepository.findAllByPostId(postId, pageable);
-        List<ReplyResponseDto> replyDtoList = new ArrayList<>();
+        List<Reply> replies = replyRepository.findAllByPostId(postId, pageable);
+        List<ReplyResponseDto> replyDtos = new ArrayList<>();
 
-        for(Reply reply : replyEntityList){
-            replyDtoList.add(new ReplyResponseDto(reply));
+        for(Reply reply : replies){
+            replyDtos.add(new ReplyResponseDto(reply));
         }
 
-        return replyDtoList;
+        return replyDtos;
     }
 
     @Transactional(readOnly = true)
     public List<ReplyResponseDto> findAllByParentReplyId(long parentReplyId, Pageable pageable){
-        List<Reply> replyEntityList = replyRepository.findAllByParentReplyId(parentReplyId, pageable);
-        List<ReplyResponseDto> replyDtoList = new ArrayList<>();
+        List<Reply> replies = replyRepository.findAllByParentReplyId(parentReplyId, pageable);
+        List<ReplyResponseDto> replyDtos = new ArrayList<>();
 
-        for(Reply reply : replyEntityList){
+        for(Reply reply : replies){
             if(reply.getParentReplyId() == reply.getReplyId()) {
                 continue;
             }
-            replyDtoList.add(new ReplyResponseDto(reply));
+            replyDtos.add(new ReplyResponseDto(reply));
         }
 
-        return replyDtoList;
+        return replyDtos;
     }
 
     public void updateReply(long replyId, ReplyUpdateRequestDto replyUpdateRequestDto) {

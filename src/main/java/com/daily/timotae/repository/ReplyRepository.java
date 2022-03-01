@@ -10,6 +10,7 @@ public interface ReplyRepository {
     Reply saveReply(Reply reply);
     void deleteReply(Long replyId);
     void updateReply(Long replyId, Reply reply);
+    Optional<Reply> findById(Long replyId);
     List<Reply> findAllByPostId(long postId, Pageable pageable);
     List<Reply> findAllByParentReplyId(long parentReplyId, Pageable pageable);
 }
