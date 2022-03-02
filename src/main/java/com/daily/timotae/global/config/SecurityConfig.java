@@ -1,8 +1,11 @@
 package com.daily.timotae.global.config;
 
+import com.daily.timotae.global.jwt.service.JwtService;
 import com.daily.timotae.global.login.filter.JsonUsernamePasswordAuthenticationFilter;
+import com.daily.timotae.global.login.filter.JwtAuthenticationProcessingFilter;
 import com.daily.timotae.global.login.handler.LoginFailureHandler;
 import com.daily.timotae.global.login.handler.LoginSuccessJWTProvideHandler;
+import com.daily.timotae.user.repository.JpaUserRepository;
 import com.daily.timotae.user.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +25,17 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final ObjectMapper objectMapper;
     private final LoginService loginService;
+    private final ObjectMapper objectMapper;
+    private final JpaUserRepository jpaUserRepository;
+    private final JwtService jwtService;
+
+
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
 
-        httpSecurity
+        http
                 .formLogin().disable()
                 .httpBasic().disable()
                 .csrf().disable()
@@ -36,14 +43,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/signUp", "/").permitAll()
+                .antMatchers("/login", "/signUp","/").permitAll()
                 .anyRequest().authenticated();
 
-        httpSecurity.addFilterAfter(jsonUsernamePasswordLoginFilter(), LogoutFilter.class);
+        http.addFilterAfter(jsonUsernamePasswordLoginFilter(), LogoutFilter.class);
+        http.addFilterBefore(jwtAuthenticationProcessingFilter(), JsonUsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
@@ -57,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LoginSuccessJWTProvideHandler loginSuccessJWTProvideHandler(){
-        return new LoginSuccessJWTProvideHandler();
+        return new LoginSuccessJWTProvideHandler(jwtService, jpaUserRepository);
     }
 
     @Bean
@@ -66,11 +75,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordLoginFilter() {
+    public JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordLoginFilter(){
         JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordLoginFilter = new JsonUsernamePasswordAuthenticationFilter(objectMapper);
         jsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
         jsonUsernamePasswordLoginFilter.setAuthenticationSuccessHandler(loginSuccessJWTProvideHandler());
         jsonUsernamePasswordLoginFilter.setAuthenticationFailureHandler(loginFailureHandler());
+        return jsonUsernamePasswordLoginFilter;
+    }
+
+    @Bean
+    public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter(){
+        JwtAuthenticationProcessingFilter jsonUsernamePasswordLoginFilter = new JwtAuthenticationProcessingFilter(jwtService, jpaUserRepository);
+
         return jsonUsernamePasswordLoginFilter;
     }
 }
