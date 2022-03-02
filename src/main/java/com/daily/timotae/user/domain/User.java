@@ -32,8 +32,18 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(length = 1000)
+    private String refreshToken;
+
     public void updatePassword(PasswordEncoder passwordEncoder, String userPassword) {
         this.userPassword = passwordEncoder.encode(userPassword);
+    }
+
+    public void updateRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
+    }
+    public void destroyRefreshToken(){
+        this.refreshToken = null;
     }
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
