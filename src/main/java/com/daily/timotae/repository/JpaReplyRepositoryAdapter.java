@@ -31,7 +31,7 @@ public class JpaReplyRepositoryAdapter implements ReplyRepository{
         newReply.update(reply.getReplyContent());
     }
 
-    private Optional<Reply> findById(Long replyId) {
+    public Optional<Reply> findById(Long replyId) {
         return jpaReplyRepository.findById(replyId);
     }
 
