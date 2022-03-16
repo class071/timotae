@@ -3,6 +3,7 @@ package com.daily.timotae.repository;
 import com.daily.timotae.constant.SearchType;
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.exception.post.NotSupportSuchTypeException;
+import org.springframework.stereotype.Component;
 
 import java.awt.print.Pageable;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 
+@Component
 public class JpaPostRepositoryAdapter implements PostRepository {
 
     private JpaPostRepository jpaPostRepository;
