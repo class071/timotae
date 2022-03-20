@@ -2,6 +2,7 @@ package com.daily.timotae.repository;
 
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.domain.Reply;
+import org.springframework.stereotype.Component;
 
 import java.awt.print.Pageable;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 import static com.daily.timotae.constant.ReplyConstant.REPLY_NOT_EXIST;
 
+@Component
 public class JpaReplyRepositoryAdapter implements ReplyRepository{
 
     private JpaReplyRepository jpaReplyRepository;
@@ -31,7 +33,7 @@ public class JpaReplyRepositoryAdapter implements ReplyRepository{
         newReply.update(reply.getReplyContent());
     }
 
-    private Optional<Reply> findById(Long replyId) {
+    public Optional<Reply> findById(Long replyId) {
         return jpaReplyRepository.findById(replyId);
     }
 
