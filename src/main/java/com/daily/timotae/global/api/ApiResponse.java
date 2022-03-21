@@ -1,12 +1,22 @@
 package com.daily.timotae.global.api;
 
-public class ApiResponse {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-    public static <T>ApiResult<T> success(String code, int httpStatus, String message, T response) {
-        return new ApiResult<>(code, httpStatus, message, response);
+@Getter
+@AllArgsConstructor
+public class ApiResponse<T> {
+
+    private String code;
+    private int httpStatus;
+    private String message;
+    private T response;
+
+    public static <T> ApiResponse success(String code, int httpStatus, String message, T response) {
+        return new ApiResponse<>(code, httpStatus, message, response);
     }
 
-    public static ApiResult<?> error(String code, int httpStatus, String message) {
-        return new ApiResult<>(code, httpStatus, message, null);
+    public static ApiResponse error(String code, int httpStatus, String message) {
+        return new ApiResponse<>(code, httpStatus, message, null);
     }
 }
