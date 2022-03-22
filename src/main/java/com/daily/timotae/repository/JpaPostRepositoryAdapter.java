@@ -2,6 +2,7 @@ package com.daily.timotae.repository;
 
 import com.daily.timotae.constant.SearchType;
 import com.daily.timotae.domain.Post;
+import com.daily.timotae.exception.post.NoSuchPostExist;
 import com.daily.timotae.exception.post.NotSupportSuchTypeException;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +35,7 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     @Override
     public void changePost(Long postId, Post post) {
         Post newPost = findPostOne(postId)
-                .orElseThrow( () -> new IllegalArgumentException(POST_NOT_EXIST + postId));
+                .orElseThrow( () -> new NoSuchPostExist());
         newPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getContent());
     }
 
