@@ -2,6 +2,8 @@ package com.daily.timotae.repository;
 
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.domain.Reply;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Component;
 
 import java.awt.print.Pageable;
@@ -12,9 +14,10 @@ import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 import static com.daily.timotae.constant.ReplyConstant.REPLY_NOT_EXIST;
 
 @Component
+@RequiredArgsConstructor
 public class JpaReplyRepositoryAdapter implements ReplyRepository{
 
-    private JpaReplyRepository jpaReplyRepository;
+    private final JpaReplyRepository jpaReplyRepository;
 
     @Override
     public Reply saveReply(Reply reply) {
