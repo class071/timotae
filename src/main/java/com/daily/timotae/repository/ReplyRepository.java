@@ -11,6 +11,6 @@ public interface ReplyRepository {
     void deleteReply(Long replyId);
     void updateReply(Long replyId, Reply reply);
     Optional<Reply> findById(Long replyId);
-    List<Reply> findAllByPostId(long postId, Pageable pageable);
-    List<Reply> findAllByParentReplyId(long parentReplyId, Pageable pageable);
+    List<Reply> findAllByPostId(long postId);
+    List<Reply> findAllByParentReplyId(long parentReplyId);
 }

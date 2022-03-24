@@ -41,12 +41,12 @@ public class JpaReplyRepositoryAdapter implements ReplyRepository{
     }
 
     @Override
-    public List<Reply> findAllByPostId(long postId, Pageable pageable) {
-        return jpaReplyRepository.findAllByPostId(postId, pageable);
+    public List<Reply> findAllByPostId(long postId) {
+        return jpaReplyRepository.findAllByPostId(postId);
     }
 
     @Override
-    public List<Reply> findAllByParentReplyId(long parentReplyId, Pageable pageable) {
-        return jpaReplyRepository.findAllByParentReplyId(parentReplyId, pageable);
+    public List<Reply> findAllByParentReplyId(long parentReplyId) {
+        return jpaReplyRepository.findAllByParentReplyId(parentReplyId);
     }
 }

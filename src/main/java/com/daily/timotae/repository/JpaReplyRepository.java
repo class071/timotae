@@ -7,6 +7,6 @@ import java.awt.print.Pageable;
 import java.util.List;
 
 public interface JpaReplyRepository extends JpaRepository<Reply, Long> {
-    List<Reply> findAllByPostId(Long postId, Pageable pageable);
-    List<Reply> findAllByParentReplyId(Long parentReplyId, Pageable pageable);
+    List<Reply> findAllByPostId(Long postId);
+    List<Reply> findAllByParentReplyId(Long parentReplyId);
 }

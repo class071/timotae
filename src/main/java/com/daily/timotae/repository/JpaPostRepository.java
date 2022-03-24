@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface JpaPostRepository extends JpaRepository<Post, Long> {
 
-    List<Post> findByTitleContaining(String keyword, Pageable pageable);
-    List<Post> findByContentContaining(String keyword, Pageable pageable);
-    List<Post> findByUserIdEquals(String keyword, Pageable pageable);
-    List<Post> findAll(Pageable pageable);
+    List<Post> findByTitleContaining(String keyword);
+    List<Post> findByContentContaining(String keyword);
+    List<Post> findByUserIdEquals(String keyword);
+    List<Post> findAll();
 }

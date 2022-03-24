@@ -10,10 +10,9 @@ public interface PostRepository {
 
     Post savePost(Post post);
     List<Post> findPostAll();
-    List<Post> findAllPaging(Pageable pageable);
     Optional<Post> findPostOne(Long postId);
     void changePost(Long postId, Post post);
     void removePost(Long postId);
-    List<Post> searchPost(String type, String keyword, Pageable pageable);
+    List<Post> searchPost(String type, String keyword);
 
 }

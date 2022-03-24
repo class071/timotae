@@ -56,19 +56,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostResponseDto> search(String type, String keyword, Pageable pageable){
-        List<Post> posts = postRepository.searchPost(type, keyword, pageable);
-        List<PostResponseDto> postDtos = new ArrayList<>();
-
-        for(Post post : posts){
-            postDtos.add(new PostResponseDto(post));
-        }
-
-        return postDtos;
-    }
-
-    public List<PostResponseDto> findAllPaging(Pageable pageable) {
-        List<Post> posts = postRepository.findAllPaging(pageable);
+    public List<PostResponseDto> search(String type, String keyword){
+        List<Post> posts = postRepository.searchPost(type, keyword);
         List<PostResponseDto> postDtos = new ArrayList<>();
 
         for(Post post : posts){
@@ -102,8 +91,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReplyResponseDto> findAllByPostId(long postId, Pageable pageable){
-        List<Reply> replies = replyRepository.findAllByPostId(postId, pageable);
+    public List<ReplyResponseDto> findAllByPostId(long postId){
+        List<Reply> replies = replyRepository.findAllByPostId(postId);
         List<ReplyResponseDto> replyDtos = new ArrayList<>();
 
         for(Reply reply : replies){
@@ -114,8 +103,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReplyResponseDto> findAllByParentReplyId(long parentReplyId, Pageable pageable){
-        List<Reply> replies = replyRepository.findAllByParentReplyId(parentReplyId, pageable);
+    public List<ReplyResponseDto> findAllByParentReplyId(long parentReplyId){
+        List<Reply> replies = replyRepository.findAllByParentReplyId(parentReplyId);
         List<ReplyResponseDto> replyDtos = new ArrayList<>();
 
         for(Reply reply : replies){
