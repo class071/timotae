@@ -1,8 +1,11 @@
 package com.daily.timotae.controller;
 
+import com.daily.timotae.constant.SuccessCode;
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.dto.*;
+import com.daily.timotae.global.api.ApiResponse;
 import com.daily.timotae.service.BoardService;
+import org.apache.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
@@ -35,24 +38,27 @@ public class BoardController {
     }
 
     @GetMapping("/readAll/")
-    public List<PostResponseDto> readAll() {
-        return boardService.readPostAll();
+    public ApiResponse<PostResponseDto> readAll() {
+        List<PostResponseDto> postResponseDtos = boardService.readPostAll();
+        final SuccessCode successCode = SuccessCode.READ_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage() , postResponseDtos);
     }
 
     @GetMapping("/readOne/{id}")
-    public PostResponseDto readOne(@PathVariable Long id) {
-        return boardService.readPostOne(id);
+    public ApiResponse<PostResponseDto> readOne(@PathVariable Long id) {
+        PostResponseDto postResponseDto = boardService.readPostOne(id);
+        final SuccessCode successCode = SuccessCode.READ_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage() , postResponseDto);
     }
 
     @GetMapping("/search/{type}/{keyword}")
-    public List<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword, Pageable pageable) {
-        return boardService.search(type, keyword, pageable);
-    }
-
-    @GetMapping("/paging")
-    public List<PostResponseDto> findAllPaging(Pageable pageable) {
-        return boardService.findAllPaging(pageable);
+    public ApiResponse<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword) {
+        List<PostResponseDto> postResponseDtos = boardService.search(type, keyword);
+        final SuccessCode successCode = SuccessCode.SEARCH_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage() , postResponseDtos);
     }
 
 }
-
