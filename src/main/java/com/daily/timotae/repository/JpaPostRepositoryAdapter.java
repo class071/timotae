@@ -4,6 +4,7 @@ import com.daily.timotae.constant.SearchType;
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.exception.post.NoSuchPostExist;
 import com.daily.timotae.exception.post.NotSupportSuchTypeException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.awt.print.Pageable;
@@ -13,9 +14,10 @@ import java.util.Optional;
 import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 
 @Component
+@RequiredArgsConstructor
 public class JpaPostRepositoryAdapter implements PostRepository {
 
-    private JpaPostRepository jpaPostRepository;
+    private final JpaPostRepository jpaPostRepository;
 
     @Override
     public Post savePost(Post post) {
