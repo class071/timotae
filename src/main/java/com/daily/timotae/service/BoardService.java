@@ -25,13 +25,15 @@ public class BoardService {
     private final PostRepository postRepository;
     private final ReplyRepository replyRepository;
 
-    public void createPost(PostCreateRequestDto postCreateRequestDto){
-        postRepository.savePost(postCreateRequestDto.toEntity());
+    public PostResponseDto createPost(PostCreateRequestDto postCreateRequestDto){
+        Post saved = postRepository.savePost(postCreateRequestDto.toEntity());
+        return new PostResponseDto(saved);
     }
 
     @Transactional
-    public void updatePost(Long postId, PostUpdateRequestDto postUpdateRequestDto){
-        postRepository.changePost(postId, postUpdateRequestDto.toEntity());
+    public PostResponseDto updatePost(Long postId, PostUpdateRequestDto postUpdateRequestDto){
+        Post updated = postRepository.changePost(postId, postUpdateRequestDto.toEntity());
+        return new PostResponseDto(updated);
     }
 
     public void deletePost(Long postId){
@@ -67,14 +69,14 @@ public class BoardService {
         return postDtos;
     }
 
-    public void createReply(ReplyCreateRequestDto replyCreateRequestDto) {
+    public ReplyResponseDto createReply(ReplyCreateRequestDto replyCreateRequestDto) {
         if(replyCreateRequestDto.getDepth() > 2) {
             throw new NoMoreReply();
         }
-
-        if(checkParentExist(replyCreateRequestDto))
-            replyRepository.saveReply(replyCreateRequestDto.toEntity());
-        else{
+        if(checkParentExist(replyCreateRequestDto)) {
+            Reply created = replyRepository.saveReply(replyCreateRequestDto.toEntity());
+            return new ReplyResponseDto(created);
+        } else{
             throw new NoParentReplyExist();
         }
     }
@@ -117,7 +119,8 @@ public class BoardService {
         return replyDtos;
     }
 
-    public void updateReply(long replyId, ReplyUpdateRequestDto replyUpdateRequestDto) {
-        replyRepository.updateReply(replyId, replyUpdateRequestDto.toEntity());
+    public ReplyResponseDto updateReply(long replyId, ReplyUpdateRequestDto replyUpdateRequestDto) {
+        Reply updated = replyRepository.updateReply(replyId, replyUpdateRequestDto.toEntity());
+        return new ReplyResponseDto(updated);
     }
 }

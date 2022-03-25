@@ -3,6 +3,7 @@ package com.daily.timotae.controller;
 import com.daily.timotae.constant.SuccessCode;
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.dto.*;
+import com.daily.timotae.exception.post.NoSuchPostExist;
 import com.daily.timotae.global.api.ApiResponse;
 import com.daily.timotae.service.BoardService;
 import org.apache.http.HttpStatus;
@@ -23,22 +24,35 @@ public class BoardController {
     }
 
     @PostMapping("/create")
-    public void create(@RequestBody PostCreateRequestDto postCreateRequestDto) {
-        boardService.createPost(postCreateRequestDto);
+    public ApiResponse<?> create(@RequestBody PostCreateRequestDto postCreateRequestDto) {
+        PostResponseDto postResponseDto = boardService.createPost(postCreateRequestDto);
+        final SuccessCode successCode = SuccessCode.CREATE_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage() , postResponseDto);
     }
 
     @PutMapping("/update/{id}")
-    public void update(@PathVariable Long id, @RequestBody PostUpdateRequestDto postUpdateRequestDto) {
-        boardService.updatePost(id, postUpdateRequestDto);
+    public ApiResponse<?> update(@PathVariable Long id, @RequestBody PostUpdateRequestDto postUpdateRequestDto) {
+        PostResponseDto postResponseDto = boardService.updatePost(id, postUpdateRequestDto);
+        final SuccessCode successCode = SuccessCode.UPDATE_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage(), postResponseDto);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        boardService.deletePost(id);
+    public ApiResponse<?> delete(@PathVariable Long id) {
+        try{
+            boardService.deletePost(id);
+        } catch(IllegalArgumentException e){
+            throw new NoSuchPostExist();
+        }
+        final SuccessCode successCode = SuccessCode.DELETE_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage(), id);
     }
 
     @GetMapping("/readAll/")
-    public ApiResponse<PostResponseDto> readAll() {
+    public ApiResponse<?> readAll() {
         List<PostResponseDto> postResponseDtos = boardService.readPostAll();
         final SuccessCode successCode = SuccessCode.READ_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
@@ -46,7 +60,7 @@ public class BoardController {
     }
 
     @GetMapping("/readOne/{id}")
-    public ApiResponse<PostResponseDto> readOne(@PathVariable Long id) {
+    public ApiResponse<?> readOne(@PathVariable Long id) {
         PostResponseDto postResponseDto = boardService.readPostOne(id);
         final SuccessCode successCode = SuccessCode.READ_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
@@ -54,7 +68,7 @@ public class BoardController {
     }
 
     @GetMapping("/search/{type}/{keyword}")
-    public ApiResponse<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword) {
+    public ApiResponse<?> search(@PathVariable String type, @PathVariable String keyword) {
         List<PostResponseDto> postResponseDtos = boardService.search(type, keyword);
         final SuccessCode successCode = SuccessCode.SEARCH_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),

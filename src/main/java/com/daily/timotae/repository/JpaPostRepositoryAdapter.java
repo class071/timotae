@@ -35,10 +35,11 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     }
 
     @Override
-    public void changePost(Long postId, Post post) {
+    public Post changePost(Long postId, Post post) {
         Post newPost = findPostOne(postId)
                 .orElseThrow( () -> new NoSuchPostExist());
         newPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getContent());
+        return newPost;
     }
 
     @Override

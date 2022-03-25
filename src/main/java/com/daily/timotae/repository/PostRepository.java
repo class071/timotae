@@ -11,7 +11,7 @@ public interface PostRepository {
     Post savePost(Post post);
     List<Post> findPostAll();
     Optional<Post> findPostOne(Long postId);
-    void changePost(Long postId, Post post);
+    Post changePost(Long postId, Post post);
     void removePost(Long postId);
     List<Post> searchPost(String type, String keyword);
 
