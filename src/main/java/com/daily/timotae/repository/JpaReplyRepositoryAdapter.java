@@ -30,10 +30,11 @@ public class JpaReplyRepositoryAdapter implements ReplyRepository{
     }
 
     @Override
-    public void updateReply(Long replyId, Reply reply) {
+    public Reply updateReply(Long replyId, Reply reply) {
         Reply newReply = findById(replyId)
                 .orElseThrow( () -> new IllegalArgumentException(REPLY_NOT_EXIST + replyId));
         newReply.update(reply.getReplyContent());
+        return newReply;
     }
 
     public Optional<Reply> findById(Long replyId) {
