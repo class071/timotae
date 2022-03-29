@@ -37,11 +37,7 @@ public class BoardController {
 
     @DeleteMapping("/delete/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {
-        try{
-            boardService.deletePost(id);
-        } catch(IllegalArgumentException e){
-            throw new NoSuchPostExist();
-        }
+        boardService.deletePost(id);
         final SuccessCode successCode = SuccessCode.DELETE_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
                 successCode.getMessage(), id);

@@ -3,6 +3,7 @@ package com.daily.timotae.service;
 import com.daily.timotae.domain.Post;
 import com.daily.timotae.domain.Reply;
 import com.daily.timotae.dto.*;
+import com.daily.timotae.exception.post.NoSuchPostExist;
 import com.daily.timotae.exception.reply.NoMoreReply;
 import com.daily.timotae.exception.reply.NoParentReplyExist;
 import com.daily.timotae.repository.PostRepository;
@@ -37,7 +38,11 @@ public class BoardService {
     }
 
     public void deletePost(Long postId){
-        postRepository.removePost(postId);
+        try{
+            postRepository.removePost(postId);
+        } catch(IllegalArgumentException e){
+            throw new NoSuchPostExist();
+        }
     }
 
     public List<PostResponseDto> readPostAll(){
