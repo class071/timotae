@@ -32,7 +32,7 @@ public class ReplyController {
     }
 
     @DeleteMapping("/delete/{replyId}")
-    public ApiResponse<?> deleteReply(@PathVariable long replyId){
+    public ApiResponse<ReplyResponseDto> deleteReply(@PathVariable long replyId){
         try{
             boardService.deleteReply(replyId);
         } catch(IllegalArgumentException e){
@@ -44,7 +44,7 @@ public class ReplyController {
     }
 
     @PutMapping("/update/{replyId}")
-    public ApiResponse<?> updateReply(@PathVariable long replyId, @RequestBody ReplyUpdateRequestDto replyUpdateRequestDto){
+    public ApiResponse<ReplyResponseDto> updateReply(@PathVariable long replyId, @RequestBody ReplyUpdateRequestDto replyUpdateRequestDto){
         ReplyResponseDto replyResponseDto = boardService.updateReply(replyId, replyUpdateRequestDto);
         final SuccessCode successCode = SuccessCode.UPDATE_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
@@ -52,15 +52,15 @@ public class ReplyController {
     }
 
     @GetMapping("/readPostReply/{postId}")
-    public ApiResponse<?> readAllByPostId(@PathVariable long postId){
+    public ApiResponse<List<ReplyResponseDto>> readAllByPostId(@PathVariable long postId){
         final SuccessCode successCode = SuccessCode.READ_SUCCESS;
         List<ReplyResponseDto> replyResponseDtos = boardService.findAllByPostId(postId);
-        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+        return  ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
                 successCode.getMessage() , replyResponseDtos);
     }
 
     @GetMapping("/re-reply/{parentReplyId}")
-    public ApiResponse<?> readAllByParentReplyId(@PathVariable long parentReplyId) {
+    public ApiResponse<List<ReplyResponseDto>> readAllByParentReplyId(@PathVariable long parentReplyId) {
         final SuccessCode successCode = SuccessCode.READ_SUCCESS;
         List<ReplyResponseDto> replyResponseDtos = boardService.findAllByParentReplyId(parentReplyId);
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
