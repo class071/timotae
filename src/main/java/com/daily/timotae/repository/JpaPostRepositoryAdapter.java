@@ -35,10 +35,11 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     }
 
     @Override
-    public void changePost(Long postId, Post post) {
+    public Post changePost(Long postId, Post post) {
         Post newPost = findPostOne(postId)
                 .orElseThrow( () -> new NoSuchPostExist());
         newPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getContent());
+        return newPost;
     }
 
     @Override
@@ -47,18 +48,13 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     }
 
     @Override
-    public List<Post> searchPost(String type, String keyword, Pageable pageable) {
+    public List<Post> searchPost(String type, String keyword) {
         SearchType searchType = SearchType.valueOf(type);
         try {
-            return searchType.getListBySearchType(jpaPostRepository, keyword, pageable);
+            return searchType.getListBySearchType(jpaPostRepository, keyword);
         }
         catch(IllegalArgumentException e){
             throw new NotSupportSuchTypeException();
         }
-    }
-
-    @Override
-    public List<Post> findAllPaging(Pageable pageable) {
-        return jpaPostRepository.findAll(pageable);
     }
 }
