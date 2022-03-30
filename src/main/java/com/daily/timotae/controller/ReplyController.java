@@ -23,7 +23,7 @@ public class ReplyController {
         this.boardService = boardService;
     }
 
-    @GetMapping("/create")
+    @PostMapping("/")
     public ApiResponse<?> createReply(@RequestBody ReplyCreateRequestDto ReplyCreateRequestDto){
         ReplyResponseDto replyResponseDto = boardService.createReply(ReplyCreateRequestDto);
         final SuccessCode successCode = SuccessCode.CREATE_SUCCESS;
@@ -31,7 +31,7 @@ public class ReplyController {
                 successCode.getMessage(), replyResponseDto);
     }
 
-    @DeleteMapping("/delete/{replyId}")
+    @DeleteMapping("/{replyId}")
     public ApiResponse<ReplyResponseDto> deleteReply(@PathVariable long replyId){
         boardService.deleteReply(replyId);
         final SuccessCode successCode = SuccessCode.DELETE_SUCCESS;
@@ -39,7 +39,7 @@ public class ReplyController {
                 successCode.getMessage(), replyId);
     }
 
-    @PutMapping("/update/{replyId}")
+    @PutMapping("/{replyId}")
     public ApiResponse<ReplyResponseDto> updateReply(@PathVariable long replyId, @RequestBody ReplyUpdateRequestDto replyUpdateRequestDto){
         ReplyResponseDto replyResponseDto = boardService.updateReply(replyId, replyUpdateRequestDto);
         final SuccessCode successCode = SuccessCode.UPDATE_SUCCESS;

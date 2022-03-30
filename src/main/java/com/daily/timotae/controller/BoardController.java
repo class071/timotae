@@ -19,7 +19,7 @@ public class BoardController {
         this.boardService = boardService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ApiResponse<PostResponseDto> create(@RequestBody PostCreateRequestDto postCreateRequestDto) {
         PostResponseDto postResponseDto = boardService.createPost(postCreateRequestDto);
         final SuccessCode successCode = SuccessCode.CREATE_SUCCESS;
@@ -27,7 +27,7 @@ public class BoardController {
                 successCode.getMessage() , postResponseDto);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ApiResponse<PostResponseDto> update(@PathVariable Long id, @RequestBody PostUpdateRequestDto postUpdateRequestDto) {
         PostResponseDto postResponseDto = boardService.updatePost(id, postUpdateRequestDto);
         final SuccessCode successCode = SuccessCode.UPDATE_SUCCESS;
@@ -35,7 +35,7 @@ public class BoardController {
                 successCode.getMessage(), postResponseDto);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {
         boardService.deletePost(id);
         final SuccessCode successCode = SuccessCode.DELETE_SUCCESS;
