@@ -33,11 +33,7 @@ public class ReplyController {
 
     @DeleteMapping("/delete/{replyId}")
     public ApiResponse<ReplyResponseDto> deleteReply(@PathVariable long replyId){
-        try{
-            boardService.deleteReply(replyId);
-        } catch(IllegalArgumentException e){
-            throw new NoSuchPostExist();
-        }
+        boardService.deleteReply(replyId);
         final SuccessCode successCode = SuccessCode.DELETE_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
                 successCode.getMessage(), replyId);

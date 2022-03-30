@@ -94,7 +94,11 @@ public class BoardService {
     }
 
     public void deleteReply(long replyId){
-        replyRepository.deleteReply(replyId);
+        try{
+            replyRepository.deleteReply(replyId);
+        } catch(IllegalArgumentException e){
+            throw new NoSuchPostExist();
+        }
     }
 
     @Transactional(readOnly = true)
