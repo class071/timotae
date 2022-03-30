@@ -13,11 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.daily.timotae.constant.PostConstant.POST_NOT_EXIST;
 
 @Service
 @RequiredArgsConstructor
@@ -58,7 +55,7 @@ public class BoardService {
 
     public PostResponseDto readPostOne(Long postId){
         Post newPost = postRepository.findPostOne(postId)
-                .orElseThrow(() -> new IllegalArgumentException(POST_NOT_EXIST + postId));
+                .orElseThrow(() -> new NoSuchPostExist());
         return new PostResponseDto(newPost);
     }
 
@@ -87,10 +84,10 @@ public class BoardService {
     }
 
     public boolean checkParentExist(ReplyCreateRequestDto replyCreateRequestDto){
-        if(replyCreateRequestDto.getParentReplyId() == null)
-            return false;
-        else
+        if(replyRepository.findById(replyCreateRequestDto.getParentReplyId()).isPresent())
             return true;
+        else
+            return false;
     }
 
     public void deleteReply(long replyId){
