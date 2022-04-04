@@ -1,12 +1,14 @@
 package com.daily.timotae.user.repository;
 
 import com.daily.timotae.user.domain.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 import static com.daily.timotae.constant.UserConstant.USER_NOT_EXIST;
 
+@Component
 public class JpaUserRepositoryAdapter implements UserRepository {
 
     private JpaUserRepository jpaUserRepository;
