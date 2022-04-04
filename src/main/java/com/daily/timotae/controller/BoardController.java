@@ -1,19 +1,17 @@
 package com.daily.timotae.controller;
 
-import com.daily.timotae.domain.Post;
-import com.daily.timotae.dto.PostCreateRequestDto;
-import com.daily.timotae.dto.PostResponseDto;
-import com.daily.timotae.dto.PostUpdateRequestDto;
+import com.daily.timotae.constant.SuccessCode;
+import com.daily.timotae.dto.*;
+import com.daily.timotae.exception.post.NoSuchPostExist;
+import com.daily.timotae.global.api.ApiResponse;
 import com.daily.timotae.service.BoardService;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/board")
-public class BoardController { // 삭제 수정 등록 조회
+public class BoardController {
 
     private final BoardService boardService;
 
@@ -21,39 +19,52 @@ public class BoardController { // 삭제 수정 등록 조회
         this.boardService = boardService;
     }
 
-    @PostMapping("/create")
-    public void create(@RequestBody PostCreateRequestDto postCreateRequestDto) {
-        boardService.createPost(postCreateRequestDto);
+    @PostMapping("/")
+    public ApiResponse<PostResponseDto> create(@RequestBody PostCreateRequestDto postCreateRequestDto) {
+        PostResponseDto postResponseDto = boardService.createPost(postCreateRequestDto);
+        final SuccessCode successCode = SuccessCode.CREATE_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage() , postResponseDto);
     }
 
-    @PutMapping("/update/{id}")
-    public void update(@PathVariable Long id, @RequestBody PostUpdateRequestDto postUpdateRequestDto) {
-        boardService.updatePost(id, postUpdateRequestDto);
+    @PutMapping("/{id}")
+    public ApiResponse<PostResponseDto> update(@PathVariable Long id, @RequestBody PostUpdateRequestDto postUpdateRequestDto) {
+        PostResponseDto postResponseDto = boardService.updatePost(id, postUpdateRequestDto);
+        final SuccessCode successCode = SuccessCode.UPDATE_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage(), postResponseDto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ApiResponse<?> delete(@PathVariable Long id) {
         boardService.deletePost(id);
+        final SuccessCode successCode = SuccessCode.DELETE_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage(), id);
     }
 
-    @GetMapping("/readall/")
-    public List<PostResponseDto> readAll(){
-        return boardService.readPostAll();
+    @GetMapping("/readAll/")
+    public ApiResponse<List<PostResponseDto>> readAll() {
+        List<PostResponseDto> postResponseDtos = boardService.readPostAll();
+        final SuccessCode successCode = SuccessCode.READ_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage() , postResponseDtos);
     }
 
-    @GetMapping("/readone/{id}")
-    public PostResponseDto readOne(@PathVariable Long id){
-        return boardService.readPostOne(id);
+    @GetMapping("/readOne/{id}")
+    public ApiResponse<PostResponseDto> readOne(@PathVariable Long id) {
+        PostResponseDto postResponseDto = boardService.readPostOne(id);
+        final SuccessCode successCode = SuccessCode.READ_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage() , postResponseDto);
     }
 
-    @GetMapping("/searchPost/{type}/{keyword}")
-    public List<PostResponseDto> search(@PathVariable String type, @PathVariable String keyword, Pageable pageable){
-        return boardService.search(type, keyword, pageable);
-    }
-
-    @GetMapping("/paging")
-    public List<PostResponseDto> findAllPaging(Pageable pageable){
-        return boardService.findAllPaging(pageable);
+    @GetMapping("/search/{type}/{keyword}")
+    public ApiResponse<List<PostResponseDto>> search(@PathVariable String type, @PathVariable String keyword) {
+        List<PostResponseDto> postResponseDtos = boardService.search(type, keyword);
+        final SuccessCode successCode = SuccessCode.SEARCH_SUCCESS;
+        return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
+                successCode.getMessage() , postResponseDtos);
     }
 
 }

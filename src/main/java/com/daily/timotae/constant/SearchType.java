@@ -10,22 +10,22 @@ public enum SearchType {
 
     TITLE{
         @Override
-        public List<Post> getListBySearchType(JpaPostRepository jpaPostRepository, String keyword, Pageable pageable){
-            return jpaPostRepository.findByTitleContaining(keyword, pageable);
+        public List<Post> getListBySearchType(JpaPostRepository jpaPostRepository, String keyword){
+            return jpaPostRepository.findByTitleContaining(keyword);
         }
     },
     CONTENT{
         @Override
-        public List<Post> getListBySearchType(JpaPostRepository jpaPostRepository, String keyword, Pageable pageable){
-            return jpaPostRepository.findByContentContaining(keyword, pageable);
+        public List<Post> getListBySearchType(JpaPostRepository jpaPostRepository, String keyword){
+            return jpaPostRepository.findByContentContaining(keyword);
         }
     },
     USERID{
         @Override
-        public List<Post> getListBySearchType(JpaPostRepository jpaPostRepository, String keyword, Pageable pageable){
-            return jpaPostRepository.findByUserIdEquals(keyword, pageable);
+        public List<Post> getListBySearchType(JpaPostRepository jpaPostRepository, String keyword){
+            return jpaPostRepository.findByUserIdEquals(keyword);
         }
     };
 
-    public abstract List<Post> getListBySearchType(JpaPostRepository jpaPostRepository, String keyword, Pageable pageable);
+    public abstract List<Post> getListBySearchType(JpaPostRepository jpaPostRepository, String keyword);
 }
