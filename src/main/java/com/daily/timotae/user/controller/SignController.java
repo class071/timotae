@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -27,5 +28,10 @@ public class SignController {
     @PostMapping("/api/sign-in")
     public ApiResponse singIn(@Valid @RequestBody SignInRequest request) {
         return ApiResponse.success(null, HttpStatus.OK, null, signService.signIn(request));
+    }
+
+    @PostMapping("/api/refresh-token")
+    public ApiResponse refreshToken(@RequestHeader(value = "Authorization") String refreshToken) {
+        return ApiResponse.success(null, HttpStatus.OK, null, signService.refreshToken(refreshToken));
     }
 }
