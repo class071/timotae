@@ -17,7 +17,7 @@ public class User {
     @Column(name = "users_id")
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(length = 30, nullable = false, unique = true)
     private String userId;
 
     private String userPassword;
@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private Integer age;
 
-    @Column(nullable = false, unique = true)
+    @Column(length = 100, nullable = false, unique = true)
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
