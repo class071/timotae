@@ -32,7 +32,7 @@ public class JpaUserRepositoryAdapter implements UserRepository {
     public void updateUser(Long id, User user) {
         User newUser = findUserOne(id)
                 .orElseThrow( () -> new IllegalArgumentException(USER_NOT_EXIST + id));
-        newUser.update(user.getUserId(), user.getUserPassword(), user.getName(), user.getAge(), user.getEmail(), user.getRole());
+        newUser.update(user.getUserId(), user.getUserPassword(), user.getName(), user.getAge(), user.getEmail());
     }
 
     @Override

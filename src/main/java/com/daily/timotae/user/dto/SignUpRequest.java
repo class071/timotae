@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +20,7 @@ public class SignUpRequest {
     private int age;
     private String email;
 
-    public static User toEntity(SignUpRequest req, PasswordEncoder passwordEncoder) {
-        return new User(req.userId, passwordEncoder.encode(req.userPassword), req.name, req.age, req.email, Role.USER);
+    public static User toEntity(SignUpRequest req, Role role, PasswordEncoder passwordEncoder) {
+        return new User(req.userId, passwordEncoder.encode(req.userPassword), req.name, req.age, req.email, List.of(role));
     }
 }
