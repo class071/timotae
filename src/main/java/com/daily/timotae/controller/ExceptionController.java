@@ -6,6 +6,8 @@ import com.daily.timotae.exception.post.NoSuchPostExist;
 import com.daily.timotae.exception.post.NotSupportSuchTypeException;
 import com.daily.timotae.exception.reply.NoMoreReply;
 import com.daily.timotae.exception.reply.NoParentReplyExist;
+import com.daily.timotae.exception.user.UserNotAuthorized;
+import com.daily.timotae.exception.user.UserNotLogin;
 import com.daily.timotae.global.api.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,4 +41,17 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         final ErrorCode errorCode = ErrorCode.RESOURCE_NOT_FOUND;
         return ApiResponse.error(errorCode.name(), errorCode.getHttpStatus(), errorCode.getMessage());
     }
+
+    @ExceptionHandler(UserNotLogin.class)
+    public ApiResponse handleUserNotLogin(UserNotLogin e){
+        final ErrorCode errorCode = ErrorCode.NOT_LOGIN_USER;
+        return ApiResponse.error(errorCode.name(), errorCode.getHttpStatus(), errorCode.getMessage());
+    }
+
+    @ExceptionHandler(UserNotAuthorized.class)
+    public ApiResponse handleUserNotAuthorized(UserNotAuthorized e){
+        final ErrorCode errorCode = ErrorCode.NOT_AUTHORIZED_USER;
+        return ApiResponse.error(errorCode.name(), errorCode.getHttpStatus(), errorCode.getMessage());
+    }
+
 }

@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not exists");
+    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "Resource not exists"),
+    NOT_LOGIN_USER(HttpStatus.UNAUTHORIZED, "This user did not login"),
+    NOT_AUTHORIZED_USER(HttpStatus.FORBIDDEN, "This user did not be authorized");
 
     private final HttpStatus httpStatus;
     private final String message;
