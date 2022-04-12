@@ -2,9 +2,12 @@ package com.daily.timotae.controller;
 
 import com.daily.timotae.constant.SuccessCode;
 import com.daily.timotae.dto.*;
-import com.daily.timotae.exception.post.NoSuchPostExist;
+import com.daily.timotae.exception.user.UserNotAuthorized;
+import com.daily.timotae.exception.user.UserNotLogin;
 import com.daily.timotae.global.api.ApiResponse;
+import com.daily.timotae.global.config.security.CustomUserDetails;
 import com.daily.timotae.service.BoardService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +32,7 @@ public class BoardController {
 
     @PutMapping("/{id}")
     public ApiResponse<PostResponseDto> update(@PathVariable Long id, @RequestBody PostUpdateRequestDto postUpdateRequestDto) {
+        checkUser(id);
         PostResponseDto postResponseDto = boardService.updatePost(id, postUpdateRequestDto);
         final SuccessCode successCode = SuccessCode.UPDATE_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
@@ -37,6 +41,7 @@ public class BoardController {
 
     @DeleteMapping("/{id}")
     public ApiResponse<?> delete(@PathVariable Long id) {
+        checkUser(id);
         boardService.deletePost(id);
         final SuccessCode successCode = SuccessCode.DELETE_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
@@ -67,4 +72,18 @@ public class BoardController {
                 successCode.getMessage() , postResponseDtos);
     }
 
+    public boolean checkUser(long postId) {
+        try{
+            CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            long id = Long.valueOf(customUserDetails.getUserId());
+            long postUserId = boardService.readPostOne(postId).getUserId();
+            if(id == postUserId){
+                return true;
+            }else {
+                throw new UserNotAuthorized(); // 해당 권한을 가진 User 가 아님.
+            }
+        }catch(IllegalStateException e){ // 로그인이 되어 있지 않음
+            throw new UserNotLogin();
+        }
+    }
 }
