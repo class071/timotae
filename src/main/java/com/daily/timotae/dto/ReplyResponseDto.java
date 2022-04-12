@@ -1,15 +1,17 @@
 package com.daily.timotae.dto;
 
 import com.daily.timotae.domain.Reply;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class ReplyResponseDto {
 
     private Long postId;
     private Long replyId;
     private Long parentReplyId;
-    private String userId;
+    private long userId;
     private String replyContent;
     private int depth;
     private LocalDateTime createdDate;

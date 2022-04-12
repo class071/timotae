@@ -8,12 +8,12 @@ public class ReplyUpdateRequestDto {
     private Long postId;
     private Long replyId;
     private Long parentReplyId;
-    private String userId;
+    private long userId;
     private String replyContent;
     private int depth;
 
     @Builder
-    public ReplyUpdateRequestDto(Long postId, Long replyId, Long parentReplyId, String userId, String replyContent, int depth) {
+    public ReplyUpdateRequestDto(Long postId, Long replyId, Long parentReplyId, long userId, String replyContent, int depth) {
         this.postId = postId;
         this.replyId = replyId;
         this.parentReplyId = parentReplyId;
