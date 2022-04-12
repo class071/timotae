@@ -21,7 +21,7 @@ public class Reply extends BaseTimeEntity{
     private Long parentReplyId;
 
     @Column(nullable = false)
-    private String userId;
+    private long userId;
 
     @Column(length = 50, nullable = false)
     private String replyContent;
@@ -29,7 +29,7 @@ public class Reply extends BaseTimeEntity{
     private int depth;
 
     @Builder
-    public Reply(Long replyId, Long postId, Long parentReplyId, String userId, String replyContent, int depth) {
+    public Reply(Long replyId, Long postId, Long parentReplyId, long userId, String replyContent, int depth) {
         this.replyId = replyId;
         this.postId = postId;
         this.parentReplyId = parentReplyId;

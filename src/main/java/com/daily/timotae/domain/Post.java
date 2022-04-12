@@ -27,20 +27,20 @@ public class Post extends BaseTimeEntity{
     private String category;
 
     @Column(nullable = false)
-    private String userId;
+    private Long userId;
 
     @Column(length = 300, nullable = false)
     private String content;
 
     @Builder
-    public Post(String title, String category, String userId,  String content) {
+    public Post(String title, String category, long userId,  String content) {
         this.title = title;
         this.category = category;
         this.userId = userId;
         this.content = content;
     }
 
-    public void update(String title, String category, String userId, String content){
+    public void update(String title, String category, long userId, String content){
         this.title = title;
         this.category = category;
         this.userId = userId;

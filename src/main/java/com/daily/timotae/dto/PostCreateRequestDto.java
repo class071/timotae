@@ -11,11 +11,11 @@ public class PostCreateRequestDto {
 
     private String title;
     private String category;
-    private String userId;
+    private long userId;
     private String content;
 
     @Builder
-    public PostCreateRequestDto(String title, String category, String userId, String content) {
+    public PostCreateRequestDto(String title, String category, long userId, String content) {
         this.title = title;
         this.category = category;
         this.userId = userId;
