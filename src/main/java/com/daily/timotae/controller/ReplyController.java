@@ -6,11 +6,14 @@ import com.daily.timotae.dto.ReplyCreateRequestDto;
 import com.daily.timotae.dto.ReplyResponseDto;
 import com.daily.timotae.dto.ReplyUpdateRequestDto;
 import com.daily.timotae.exception.post.NoSuchPostExist;
+import com.daily.timotae.exception.user.UserNotAuthorized;
+import com.daily.timotae.exception.user.UserNotLogin;
 import com.daily.timotae.global.api.ApiResponse;
+import com.daily.timotae.global.config.security.CustomUserDetails;
 import com.daily.timotae.service.BoardService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @RestController
@@ -61,5 +64,20 @@ public class ReplyController {
         List<ReplyResponseDto> replyResponseDtos = boardService.findAllByParentReplyId(parentReplyId);
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
                 successCode.getMessage() , replyResponseDtos);
+    }
+
+    public boolean checkUser(long replyId) {
+        try{
+            CustomUserDetails customUserDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            long id = Long.valueOf(customUserDetails.getUserId());
+            long replyUserId = boardService.readReplyOne(replyId).getUserId();
+            if(id == replyUserId){
+                return true;
+            }else {
+                throw new UserNotAuthorized(); // 해당 권한을 가진 User 가 아님.
+            }
+        }catch(IllegalStateException e){ // 로그인이 되어 있지 않음
+            throw new UserNotLogin();
+        }
     }
 }
