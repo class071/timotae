@@ -6,6 +6,7 @@ import com.daily.timotae.dto.*;
 import com.daily.timotae.exception.post.NoSuchPostExist;
 import com.daily.timotae.exception.reply.NoMoreReply;
 import com.daily.timotae.exception.reply.NoParentReplyExist;
+import com.daily.timotae.exception.reply.NoSuchReplyExist;
 import com.daily.timotae.repository.PostRepository;
 
 import com.daily.timotae.repository.ReplyRepository;
@@ -128,5 +129,11 @@ public class BoardService {
     public ReplyResponseDto updateReply(long replyId, ReplyUpdateRequestDto replyUpdateRequestDto) {
         Reply updated = replyRepository.updateReply(replyId, replyUpdateRequestDto.toEntity());
         return new ReplyResponseDto(updated);
+    }
+
+    public ReplyResponseDto readReplyOne(long replyId){
+        Reply newReply = replyRepository.findById(replyId)
+                .orElseThrow(() -> new NoSuchReplyExist());
+        return new ReplyResponseDto(newReply);
     }
 }
