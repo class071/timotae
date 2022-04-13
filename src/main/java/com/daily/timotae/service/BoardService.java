@@ -53,9 +53,11 @@ public class BoardService {
         return postDtos;
     }
 
+    @Transactional
     public PostResponseDto readPostOne(Long postId){
         Post newPost = postRepository.findPostOne(postId)
                 .orElseThrow(() -> new NoSuchPostExist());
+        newPost.postHits(newPost.getHits() + 1);
         return new PostResponseDto(newPost);
     }
 
