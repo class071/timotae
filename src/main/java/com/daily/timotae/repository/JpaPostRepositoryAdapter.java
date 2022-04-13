@@ -38,7 +38,7 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     public Post changePost(Long postId, Post post) {
         Post newPost = findPostOne(postId)
                 .orElseThrow( () -> new NoSuchPostExist());
-        newPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getContent());
+        newPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getContent(), post.getHits());
         return newPost;
     }
 
