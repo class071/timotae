@@ -136,4 +136,9 @@ public class BoardService {
                 .orElseThrow(() -> new NoSuchReplyExist());
         return new ReplyResponseDto(newReply);
     }
+
+    @Transactional
+    public void viewCountUp(long postId) {
+        postRepository.viewCountUp(postId);
+    }
 }
