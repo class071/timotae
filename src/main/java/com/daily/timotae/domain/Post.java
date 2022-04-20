@@ -1,16 +1,10 @@
 package com.daily.timotae.domain;
 
 import lombok.Builder;
-import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import javax.persistence.Id;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import java.io.Serializable;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
@@ -32,18 +26,26 @@ public class Post extends BaseTimeEntity{
     @Column(length = 300, nullable = false)
     private String content;
 
+    private volatile int viewCount;
+
     @Builder
-    public Post(String title, String category, long userId,  String content) {
+    public Post(String title, String category, long userId,  String content, int viewCount) {
         this.title = title;
         this.category = category;
         this.userId = userId;
         this.content = content;
+        this.viewCount = viewCount;
     }
 
-    public void update(String title, String category, long userId, String content){
+    public void update(String title, String category, long userId, String content, int viewCount){
         this.title = title;
         this.category = category;
         this.userId = userId;
         this.content = content;
+        this.viewCount = viewCount;
+    }
+
+    public synchronized void viewCountUp() {
+        viewCount++;
     }
 }

@@ -12,6 +12,7 @@ public class PostResponseDto {
     private String category;
     private long userId;
     private String content;
+    private int viewCount;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -20,6 +21,7 @@ public class PostResponseDto {
         this.category = post.getCategory();
         this.userId = post.getUserId();
         this.content = post.getContent();
+        this.viewCount = post.getViewCount();
         this.createdDate = post.getCreatedDate();
         this.modifiedDate = post.getModifiedDate();
     }
