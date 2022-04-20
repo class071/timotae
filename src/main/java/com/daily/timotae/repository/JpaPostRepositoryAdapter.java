@@ -7,7 +7,6 @@ import com.daily.timotae.exception.post.NotSupportSuchTypeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class JpaPostRepositoryAdapter implements PostRepository {
     public Post changePost(Long postId, Post post) {
         Post newPost = findPostOne(postId)
                 .orElseThrow( () -> new NoSuchPostExist());
-        newPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getContent());
+        newPost.update(post.getTitle(), post.getCategory(), post.getUserId(), post.getContent(), post.getViewCount());
         return newPost;
     }
 
@@ -56,5 +55,13 @@ public class JpaPostRepositoryAdapter implements PostRepository {
         catch(IllegalArgumentException e){
             throw new NotSupportSuchTypeException();
         }
+    }
+
+    @Override
+    public int viewCountUp(Long postId) {
+        Post newPost = findPostOne(postId)
+                .orElseThrow( () -> new NoSuchPostExist());
+        newPost.viewCountUp();
+        return newPost.getViewCount();
     }
 }
