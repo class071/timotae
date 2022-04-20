@@ -10,6 +10,9 @@ import com.daily.timotae.service.BoardService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -57,7 +60,8 @@ public class BoardController {
     }
 
     @GetMapping("/readOne/{id}")
-    public ApiResponse<PostResponseDto> readOne(@PathVariable Long id) {
+    public ApiResponse<PostResponseDto> readOne(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
+        viewCountUp(id, request, response);
         PostResponseDto postResponseDto = boardService.readPostOne(id);
         final SuccessCode successCode = SuccessCode.READ_SUCCESS;
         return ApiResponse.success(successCode.name(), successCode.getHttpStatus(),
@@ -84,6 +88,34 @@ public class BoardController {
             }
         }catch(IllegalStateException e){ // 로그인이 되어 있지 않음
             throw new UserNotLogin();
+        }
+    }
+
+    private void viewCountUp(Long postId, HttpServletRequest request, HttpServletResponse response) {
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("postView")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + postId.toString() + "]")) {
+                boardService.viewCountUp(postId);
+                oldCookie.setValue(oldCookie.getValue() + "_[" + postId + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            boardService.viewCountUp(postId);
+            Cookie newCookie = new Cookie("postView","[" + postId + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(newCookie);
         }
     }
 }
