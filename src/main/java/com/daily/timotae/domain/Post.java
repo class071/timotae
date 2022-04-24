@@ -26,6 +26,7 @@ public class Post extends BaseTimeEntity{
     @Column(length = 300, nullable = false)
     private String content;
 
+    @Column(nullable = false)
     private volatile int viewCount;
 
     @Builder
